@@ -172,7 +172,7 @@ def brute_rmse(data="predictions.npy"):
     rmse = 0
     for i in xrange(20000):
         actual = test_ratings[i]
-        predicted = prediction[i]
+        predicted = int(prediction[i])
         rmse += (predicted - actual) ** 2
     return (rmse/20000)**0.5
 
@@ -181,14 +181,24 @@ def precision_at_top_k(db="predictions.npy", k=200):
     predicted = np.load(db)
     test_ratings = np.load("test_ratings.npy")
     relevant_entries = predicted.argsort()[::-1][0:k]
-    threshold = predicted[relevant_entries[relevant_entries.shape[0] - 1]]
+    threshold = int(predicted[relevant_entries[relevant_entries.shape[0] - 1]])
     relevant_count = 0
     for entry in relevant_entries:
-        print threshold, test_ratings[entry]
         if test_ratings[entry] >= threshold:
             relevant_count += 1
     precision = relevant_count / 200
     return precision
+
+
+def spearman_correlation(db="predictions.npy"):
+    predicted = np.load(db)
+    test_ratings = np.load("test_ratings.npy")
+    d = 0
+    n = test_ratings.shape[0]
+    for i in xrange(n):
+        d += (predicted[i] - test_ratings[i]) ** 2
+    coeff = (6 * d) / (n * (n ** 2 - 1))
+    return 1 - coeff
 
 
 def main():
@@ -201,6 +211,8 @@ def main():
     print "rmse before minimimization", brute_rmse()
     print "precision at top k before minimization", precision_at_top_k(
         db="predictions.npy")
+    print "spearman correlation before minimzation", spearman_correlation(
+        db="predictions.npy")
     matrix_u, matrix_sigma, matrix_v = minimize_sigma(matrix_u, matrix_sigma,
                                                       matrix_v)
     if "min_predictions.npy" not in os.listdir("."):
@@ -209,11 +221,16 @@ def main():
     print "rmse after minimisation", brute_rmse(data="min_predictions.npy")
     print "precision at top k after minimization", precision_at_top_k(
         db="min_predictions.npy")
+    print "spearman correlation after minimization", spearman_correlation(
+        db="min_predictions.npy")
 
 if __name__ == "__main__":
     main()
 
-# 0.369265468915 rmse on original matrix
-# 0.358757135562 rmse after minimzation on original matrix
-# 1.29209159116 rmse on test_Data
-# 1.28937224589 rmse after minimzation on original matrix
+# rmse before minimimization 1.38522561339
+# precision at top k before minimization 0.625
+# spearman correlation before minimzation 0.999999974957
+# rmse after minimisation 1.38518951772
+# precision at top k after minimization 0.64
+# spearman correlation after minimization 0.999999975063
+
