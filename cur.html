@@ -1,0 +1,154 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module cur</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>cur</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/vamshi/PycharmProjects/svd/cur.py">/home/vamshi/PycharmProjects/svd/cur.py</a></font></td></tr></table>
+    <p><tt>A&nbsp;module&nbsp;to&nbsp;implement&nbsp;CUR&nbsp;decomposition</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="csv.html">csv</a><br>
+</td><td width="25%" valign=top><a href="scipy.linalg.html">scipy.linalg</a><br>
+</td><td width="25%" valign=top><a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-brute_rmse"><strong>brute_rmse</strong></a>(data<font color="#909090">='cur_predictions.npy'</font>)</dt><dd><tt>Calculate&nbsp;rmse&nbsp;error&nbsp;over&nbsp;test&nbsp;data.&nbsp;The&nbsp;test&nbsp;data&nbsp;and&nbsp;training&nbsp;data&nbsp;are<br>
+disjoint&nbsp;so&nbsp;as&nbsp;to&nbsp;better&nbsp;evaluate&nbsp;the&nbsp;recommender&nbsp;system.&nbsp;Rmse&nbsp;error&nbsp;is<br>
+calculated&nbsp;by&nbsp;the&nbsp;formula,&nbsp;<a href="#-sqrt">sqrt</a>(summation(&nbsp;(predicted&nbsp;-&nbsp;actual)&nbsp;^&nbsp;2)/n<br>
+:param&nbsp;data:&nbsp;(String)&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;numpy&nbsp;array&nbsp;that&nbsp;contains&nbsp;our<br>
+predictions.<br>
+:return:&nbsp;(double)&nbsp;rmse&nbsp;error</tt></dd></dl>
+ <dl><dt><a name="-cur"><strong>cur</strong></a>(matrix_a, replace<font color="#909090">=True</font>)</dt><dd><tt>Perform&nbsp;CUR&nbsp;decomposition&nbsp;for&nbsp;a&nbsp;given&nbsp;matrix.<br>
+The&nbsp;algorithm&nbsp;is&nbsp;as&nbsp;follows:<br>
+-&nbsp;randomly&nbsp;sample&nbsp;"genre"&nbsp;number&nbsp;of&nbsp;rows&nbsp;and&nbsp;columns&nbsp;of&nbsp;matrix_a&nbsp;as<br>
+matrix_r,&nbsp;matrix_c<br>
+-&nbsp;Find&nbsp;intersection&nbsp;of&nbsp;the&nbsp;above&nbsp;two&nbsp;matrices&nbsp;as&nbsp;matrix_w<br>
+-&nbsp;perform&nbsp;svd&nbsp;decoposition&nbsp;of&nbsp;matrix_w,&nbsp;to&nbsp;get&nbsp;x,&nbsp;matrix_sigma,&nbsp;y<br>
+-&nbsp;get&nbsp;pseudo&nbsp;inverse&nbsp;of&nbsp;matrix_sigma<br>
+-&nbsp;matrix_u&nbsp;=&nbsp;y&nbsp;*&nbsp;matrix_sigma&nbsp;^&nbsp;2&nbsp;*&nbsp;x.transpose()<br>
+-&nbsp;return&nbsp;matrix_c,&nbsp;matrix_u,&nbsp;matrix_r<br>
+:param&nbsp;matrix_a:&nbsp;(scipy.sparse.csr_matrix)&nbsp;The&nbsp;actual&nbsp;user&nbsp;-&nbsp;movie&nbsp;-rating<br>
+matrix&nbsp;that&nbsp;is&nbsp;to&nbsp;be&nbsp;decomposed.<br>
+:param&nbsp;replace:&nbsp;(boolean)&nbsp;replace&nbsp;=&nbsp;True&nbsp;=&gt;&nbsp;rows&nbsp;and&nbsp;columns&nbsp;are&nbsp;chosen<br>
+with&nbsp;repetition.&nbsp;replace&nbsp;=&nbsp;False&nbsp;=&gt;&nbsp;rows&nbsp;and&nbsp;columns&nbsp;are&nbsp;chosen&nbsp;without<br>
+repetition<br>
+:return:&nbsp;matrix_c,&nbsp;matrix_u,&nbsp;matrix_r,&nbsp;which&nbsp;constitute&nbsp;to&nbsp;CUR<br>
+decomposition&nbsp;of&nbsp;the&nbsp;required&nbsp;matrix.</tt></dd></dl>
+ <dl><dt><a name="-get_column_probability"><strong>get_column_probability</strong></a>(matrix_a, column)</dt><dd><tt>In&nbsp;CUR&nbsp;decomposition&nbsp;we&nbsp;choose&nbsp;rows&nbsp;and&nbsp;columns&nbsp;based&nbsp;on&nbsp;the&nbsp;probability<br>
+function&nbsp;give&nbsp;by,&nbsp;p&nbsp;=&nbsp;sum_of_squares&nbsp;(of&nbsp;row&nbsp;or&nbsp;column)&nbsp;/&nbsp;sum_of_squares&nbsp;(of<br>
+entire&nbsp;matrix).&nbsp;This&nbsp;function&nbsp;returns&nbsp;that&nbsp;probablity&nbsp;for&nbsp;a&nbsp;column.<br>
+:param&nbsp;matrix_a:&nbsp;(scipy.sparse.csr_matrix)&nbsp;The&nbsp;actual&nbsp;user&nbsp;-&nbsp;movie&nbsp;-rating<br>
+matrix&nbsp;that&nbsp;is&nbsp;to&nbsp;be&nbsp;decomposed.<br>
+:param&nbsp;column:&nbsp;(int)&nbsp;the&nbsp;column&nbsp;number&nbsp;whose&nbsp;probablity&nbsp;is&nbsp;to&nbsp;be&nbsp;calculated<br>
+:return:&nbsp;(double)&nbsp;probability&nbsp;of&nbsp;that&nbsp;column.</tt></dd></dl>
+ <dl><dt><a name="-get_data"><strong>get_data</strong></a>()</dt><dd><tt>A&nbsp;function&nbsp;to&nbsp;read&nbsp;data&nbsp;from&nbsp;test&nbsp;file,&nbsp;and&nbsp;return&nbsp;a&nbsp;sparse&nbsp;matrix.<br>
+:return:&nbsp;A&nbsp;sparse&nbsp;user&nbsp;-&nbsp;movie&nbsp;rating&nbsp;matrix</tt></dd></dl>
+ <dl><dt><a name="-get_row_probability"><strong>get_row_probability</strong></a>(matrix_a, row)</dt><dd><tt>In&nbsp;CUR&nbsp;decomposition&nbsp;we&nbsp;choose&nbsp;rows&nbsp;and&nbsp;columns&nbsp;based&nbsp;on&nbsp;the&nbsp;probability<br>
+function&nbsp;give&nbsp;by,&nbsp;p&nbsp;=&nbsp;sum_of_squares&nbsp;(of&nbsp;row&nbsp;or&nbsp;column)&nbsp;/&nbsp;sum_of_squares&nbsp;(of<br>
+entire&nbsp;matrix).&nbsp;This&nbsp;function&nbsp;returns&nbsp;that&nbsp;probablity&nbsp;for&nbsp;a&nbsp;row.<br>
+:param&nbsp;matrix_a:(scipy.sparse.csr_matrix)&nbsp;The&nbsp;actual&nbsp;user&nbsp;-&nbsp;movie&nbsp;-rating<br>
+matrix&nbsp;that&nbsp;is&nbsp;to&nbsp;be&nbsp;decomposed.<br>
+decomposed<br>
+:param&nbsp;row:&nbsp;(int)&nbsp;the&nbsp;row&nbsp;number&nbsp;whose&nbsp;probablity&nbsp;is&nbsp;to&nbsp;be&nbsp;calculated<br>
+:return:&nbsp;(double)&nbsp;probability&nbsp;of&nbsp;that&nbsp;row.</tt></dd></dl>
+ <dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><tt>The&nbsp;main&nbsp;function.&nbsp;It&nbsp;does&nbsp;the&nbsp;following:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;get&nbsp;data&nbsp;from&nbsp;the&nbsp;training&nbsp;set<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;preprocess&nbsp;the&nbsp;matrix<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;perform&nbsp;CUR&nbsp;decomposition,&nbsp;first&nbsp;with&nbsp;repetition<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;if&nbsp;the&nbsp;predcitions&nbsp;were&nbsp;not&nbsp;saved&nbsp;before,&nbsp;saves&nbsp;them&nbsp;now<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;performs&nbsp;CUR&nbsp;decomposition,&nbsp;without&nbsp;repetition&nbsp;now<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;If&nbsp;the&nbsp;predictions&nbsp;were&nbsp;not&nbsp;saved&nbsp;before,&nbsp;saves&nbsp;them&nbsp;now<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;calculates&nbsp;rmse,&nbsp;spearman&nbsp;correlation&nbsp;and&nbsp;precision&nbsp;on&nbsp;top&nbsp;K&nbsp;ratings<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;both&nbsp;the&nbsp;cases&nbsp;and&nbsp;prints&nbsp;them<br>
+:return:</tt></dd></dl>
+ <dl><dt><a name="-precision_at_top_k"><strong>precision_at_top_k</strong></a>(db<font color="#909090">='cur_predictions.npy'</font>, k<font color="#909090">=300</font>)</dt><dd><tt>A&nbsp;function&nbsp;to&nbsp;calculate&nbsp;precision&nbsp;for&nbsp;top_k&nbsp;ratings.&nbsp;we&nbsp;calculate&nbsp;the<br>
+precision&nbsp;the&nbsp;following&nbsp;way:<br>
+-&nbsp;Get&nbsp;top&nbsp;K&nbsp;entries&nbsp;from&nbsp;our&nbsp;predicted&nbsp;values<br>
+-&nbsp;Get&nbsp;threshold&nbsp;for&nbsp;these&nbsp;top&nbsp;K&nbsp;entries<br>
+-&nbsp;Get&nbsp;the&nbsp;number&nbsp;of&nbsp;entires&nbsp;amongst&nbsp;these&nbsp;K&nbsp;entries&nbsp;whose&nbsp;actual&nbsp;rating&nbsp;is<br>
+&nbsp;&nbsp;greator&nbsp;than&nbsp;threshold&nbsp;as&nbsp;c<br>
+-&nbsp;precision&nbsp;=&nbsp;c/k<br>
+:param&nbsp;db:&nbsp;(String)&nbsp;name&nbsp;of&nbsp;the&nbsp;numpy&nbsp;array&nbsp;where&nbsp;our&nbsp;predictions&nbsp;are&nbsp;stored.<br>
+:param&nbsp;k:&nbsp;(int)&nbsp;k&nbsp;in&nbsp;top&nbsp;K&nbsp;entries<br>
+:return:&nbsp;(double)&nbsp;precision</tt></dd></dl>
+ <dl><dt><a name="-predict_singular"><strong>predict_singular</strong></a>(row, column, matrix_c, matrix_u, matrix_r)</dt><dd><tt>This&nbsp;function&nbsp;predicts&nbsp;the&nbsp;rating&nbsp;a&nbsp;user&nbsp;gives&nbsp;to&nbsp;a&nbsp;movie,&nbsp;based&nbsp;on&nbsp;the<br>
+matrices&nbsp;obtained&nbsp;from&nbsp;CUR&nbsp;decomposition<br>
+:param&nbsp;row:&nbsp;(int)&nbsp;Id&nbsp;of&nbsp;user<br>
+:param&nbsp;column:(int)&nbsp;Id&nbsp;of&nbsp;movie,&nbsp;whose&nbsp;rating&nbsp;from&nbsp;user&nbsp;we&nbsp;have&nbsp;to&nbsp;determine<br>
+:param&nbsp;matrix_c:(scipy.sparse.csr_matrix)&nbsp;C&nbsp;in&nbsp;CUR&nbsp;decopmosition<br>
+:param&nbsp;matrix_u:&nbsp;(np.ndarray)&nbsp;U&nbsp;in&nbsp;CUR&nbsp;decomposition<br>
+:param&nbsp;matrix_r:(scipy.sparse.csr_matrix)&nbsp;R&nbsp;in&nbsp;CUR&nbsp;decomposition<br>
+:return:&nbsp;(int)&nbsp;predicted&nbsp;rating</tt></dd></dl>
+ <dl><dt><a name="-preprocess"><strong>preprocess</strong></a>(matrix)</dt><dd><tt>A&nbsp;function&nbsp;to&nbsp;preprocess&nbsp;the&nbsp;matrix.&nbsp;In&nbsp;this&nbsp;step,&nbsp;from&nbsp;every&nbsp;user's<br>
+rating,&nbsp;we&nbsp;subtract&nbsp;that&nbsp;user's&nbsp;average&nbsp;rating.<br>
+:param&nbsp;matrix:&nbsp;(scipy.sparse.csr_matrix)&nbsp;the&nbsp;matrix&nbsp;to&nbsp;be&nbsp;processed<br>
+:return:&nbsp;(scipy.sparse.csr_matrix)&nbsp;preprocessed&nbsp;matrix</tt></dd></dl>
+ <dl><dt><a name="-pseudo_inverse"><strong>pseudo_inverse</strong></a>(matrix)</dt><dd><tt>Calculate&nbsp;pseudo&nbsp;inverse&nbsp;of&nbsp;the&nbsp;matrix&nbsp;given.&nbsp;A&nbsp;pseudo&nbsp;inverse&nbsp;of&nbsp;a&nbsp;matrix&nbsp;is<br>
+calculated&nbsp;by&nbsp;finding&nbsp;arithmetic&nbsp;multiplicative&nbsp;inverse&nbsp;of&nbsp;all&nbsp;non&nbsp;zero<br>
+elements&nbsp;of&nbsp;the&nbsp;matrix<br>
+:param&nbsp;matrix:&nbsp;(scipy.sparse.csr_matrix)&nbsp;The&nbsp;actual&nbsp;user&nbsp;-&nbsp;movie&nbsp;-rating<br>
+matrix&nbsp;that&nbsp;is&nbsp;to&nbsp;be&nbsp;decomposed.<br>
+:return:&nbsp;(scipy.sparse.csr_matrix)&nbsp;pseudo&nbsp;inverse&nbsp;of&nbsp;given&nbsp;matrix.</tt></dd></dl>
+ <dl><dt><a name="-rmse"><strong>rmse</strong></a>(matrix_a, matrix_c, matrix_u, matrix_r)</dt><dd><tt>A&nbsp;function&nbsp;to&nbsp;calculate&nbsp;rmse&nbsp;on&nbsp;original&nbsp;matrix.<br>
+:param&nbsp;matrix_a:&nbsp;(scipy.sparse.csr_matrix)&nbsp;the&nbsp;original&nbsp;matrix&nbsp;which&nbsp;we<br>
+have&nbsp;decomposed.<br>
+:param&nbsp;matrix_c:&nbsp;(scipy.sparse.csr_matrix)&nbsp;C&nbsp;in&nbsp;CUR&nbsp;decompostion&nbsp;of&nbsp;matrix_a<br>
+:param&nbsp;matrix_u:&nbsp;(numpy.ndarray)&nbsp;U&nbsp;in&nbsp;CUR&nbsp;decomposition&nbsp;of&nbsp;matrix_a<br>
+:param&nbsp;matrix_r:&nbsp;(scipy.sparse.csr_matrix)&nbsp;R&nbsp;in&nbsp;CUR&nbsp;decompostion&nbsp;of&nbsp;matrix_a<br>
+:return:&nbsp;(double)&nbsp;rmse&nbsp;error</tt></dd></dl>
+ <dl><dt><a name="-save_predictions"><strong>save_predictions</strong></a>(matrix_c, matrix_u, matrix_r, db<font color="#909090">='cur_predictions.npy'</font>)</dt><dd><tt>To&nbsp;not&nbsp;run&nbsp;the&nbsp;entire&nbsp;algorithm&nbsp;every&nbsp;time,&nbsp;we&nbsp;can&nbsp;save&nbsp;our&nbsp;predictions<br>
+for&nbsp;a&nbsp;given&nbsp;test&nbsp;data.&nbsp;This&nbsp;function&nbsp;does&nbsp;that.<br>
+:param&nbsp;matrix_c:&nbsp;(scipy.sparse.csr_matrix)&nbsp;C&nbsp;in&nbsp;CUR&nbsp;decomposition<br>
+:param&nbsp;matrix_u:&nbsp;(numpy.ndarray)&nbsp;U&nbsp;in&nbsp;CUR&nbsp;decomposition<br>
+:param&nbsp;matrix_r:&nbsp;(scipy.sparse.matrix)&nbsp;R&nbsp;in&nbsp;CUR&nbsp;decompositon<br>
+:param&nbsp;db:&nbsp;(String)&nbsp;name&nbsp;of&nbsp;the&nbsp;numpy&nbsp;array&nbsp;where&nbsp;we&nbsp;need&nbsp;to&nbsp;store&nbsp;our<br>
+predictions.<br>
+:return:&nbsp;None</tt></dd></dl>
+ <dl><dt><a name="-spearman_correlation"><strong>spearman_correlation</strong></a>(db<font color="#909090">='cur_predictions.npy'</font>)</dt><dd><tt>Function&nbsp;to&nbsp;calculate&nbsp;spearman&nbsp;correlation.<br>
+It&nbsp;is&nbsp;calculated&nbsp;by&nbsp;the&nbsp;following&nbsp;formula:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;-&nbsp;((6&nbsp;*&nbsp;sum((predicted&nbsp;-&nbsp;actual)&nbsp;^&nbsp;2)/(&nbsp;n&nbsp;(&nbsp;n^2&nbsp;-&nbsp;1)),&nbsp;where&nbsp;n&nbsp;is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;number&nbsp;of&nbsp;entries&nbsp;we&nbsp;are&nbsp;checking&nbsp;against.<br>
+Spearman&nbsp;correaltion&nbsp;gives&nbsp;how&nbsp;similar&nbsp;two&nbsp;vectors&nbsp;are.&nbsp;How&nbsp;strongly&nbsp;they<br>
+are&nbsp;correlated&nbsp;is&nbsp;determined&nbsp;by&nbsp;the&nbsp;magnitude&nbsp;of&nbsp;correlation.&nbsp;The&nbsp;closer<br>
+they&nbsp;are&nbsp;to&nbsp;1,&nbsp;the&nbsp;stronger&nbsp;they&nbsp;are&nbsp;related.<br>
+:param&nbsp;db:&nbsp;(String)&nbsp;name&nbsp;of&nbsp;the&nbsp;numpy&nbsp;array&nbsp;where&nbsp;our&nbsp;predictions&nbsp;are&nbsp;stored<br>
+:return:&nbsp;(double)&nbsp;spearman&nbsp;correaltion</tt></dd></dl>
+ <dl><dt><a name="-split_matrix"><strong>split_matrix</strong></a>(matrix_a)</dt><dd><tt>A&nbsp;function&nbsp;to&nbsp;perform&nbsp;svd&nbsp;decomposition&nbsp;on&nbsp;the&nbsp;matrix&nbsp;given&nbsp;to&nbsp;it.&nbsp;It&nbsp;is<br>
+similar&nbsp;to&nbsp;the&nbsp;function&nbsp;of&nbsp;same&nbsp;name&nbsp;in&nbsp;svd.py<br>
+:param&nbsp;matrix_a:&nbsp;(scipy.sparse.csr_matrix)&nbsp;A&nbsp;sparse&nbsp;matrix&nbsp;that&nbsp;is&nbsp;to&nbsp;be<br>
+decomposed&nbsp;via&nbsp;svd<br>
+:return:&nbsp;the&nbsp;three&nbsp;matrices,&nbsp;U,&nbsp;Sigma,&nbsp;and&nbsp;V&nbsp;that&nbsp;are&nbsp;the&nbsp;result&nbsp;of&nbsp;SVD<br>
+decomposition</tt></dd></dl>
+ <dl><dt><a name="-sqrt"><strong>sqrt</strong></a>(...)</dt><dd><tt><a href="#-sqrt">sqrt</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;square&nbsp;root&nbsp;of&nbsp;x.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>division</strong> = _Feature((2, 2, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 8192)<br>
+<strong>genre</strong> = 100<br>
+<strong>sum_of_squares</strong> = 106257.295544<br>
+<strong>total_movies</strong> = 1682<br>
+<strong>total_users</strong> = 943</td></tr></table>
+</body></html>

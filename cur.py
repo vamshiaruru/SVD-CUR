@@ -8,6 +8,7 @@ import scipy.linalg as linalg
 import csv
 from math import sqrt
 import os
+import time
 
 # here sum_of_squares is the sum of squares of all values after preprocessing the
 # matrix, genre represent the number of rows and columns we are choosing randomly
@@ -219,6 +220,7 @@ def predict_singular(row, column, matrix_c, matrix_u, matrix_r):
     :param matrix_r:(scipy.sparse.csr_matrix) R in CUR decomposition
     :return: (int) predicted rating
     """
+    now = time.clock()
     # averages.npy contains precalculated averages of all the rows of matrix_a
     averages = np.load("averages.npy")
     # if by chance row, column are not integers, convert them to integers
@@ -237,10 +239,11 @@ def predict_singular(row, column, matrix_c, matrix_u, matrix_r):
     # adujst predictions, so that it remains bound between 0 and 5
     if prediction >= 5:
         prediction = 5
-    elif prediction <=0:
+    elif prediction <= 0:
         prediction = 0
     else:
         prediction = int(prediction)
+    print time.clock() - now
     return prediction
 
 
@@ -400,11 +403,11 @@ def main():
     matrix_a = preprocess(matrix_a)
     matrix_c, matrix_u, matrix_r = cur(matrix_a, replace=False)
     if "cur_predictions.npy" not in os.listdir("."):
-        print "here"
+        print "saving predictions"
         save_predictions(matrix_c, matrix_u, matrix_r, db="cur_predictions.npy")
-    matrix_c, matrix_u, matrix_r = cur(matrix_a, replace=False)
+    matrix_c, matrix_u, matrix_r = cur(matrix_a, replace=True)
     if "cur_mod_predictions.npy" not in os.listdir("."):
-        print "here"
+        print "saving modified cur predictions"
         save_predictions(matrix_c, matrix_u, matrix_r,
                          db="cur_mod_predictions.npy")
     print "rmse with repetition: ", brute_rmse()

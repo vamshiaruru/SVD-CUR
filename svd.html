@@ -1,0 +1,156 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module svd</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>svd</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/vamshi/PycharmProjects/svd/svd.py">/home/vamshi/PycharmProjects/svd/svd.py</a></font></td></tr></table>
+    <p><tt>A&nbsp;module&nbsp;to&nbsp;perform&nbsp;SVD&nbsp;decompostion&nbsp;on&nbsp;a&nbsp;given&nbsp;training&nbsp;dataset.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="csv.html">csv</a><br>
+</td><td width="25%" valign=top><a href="scipy.linalg.html">scipy.linalg</a><br>
+</td><td width="25%" valign=top><a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-average"><strong>average</strong></a>(vector)</dt><dd><tt>calculates&nbsp;average&nbsp;of&nbsp;non&nbsp;zero&nbsp;values&nbsp;of&nbsp;vector<br>
+-&nbsp;&gt;&gt;&gt;&nbsp;vector&nbsp;=&nbsp;[1,1,1,0,0,0]<br>
+-&nbsp;&gt;&gt;&gt;&nbsp;<a href="#-average">average</a>(vector)&nbsp;=&nbsp;(3/3)&nbsp;=&nbsp;1<br>
+:param&nbsp;vector:&nbsp;(numpy.ndarray)&nbsp;The&nbsp;array&nbsp;whose&nbsp;average&nbsp;is&nbsp;to&nbsp;be&nbsp;calculated<br>
+:return:&nbsp;(double)&nbsp;average&nbsp;of&nbsp;vector</tt></dd></dl>
+ <dl><dt><a name="-brute_rmse"><strong>brute_rmse</strong></a>(data<font color="#909090">='predictions.npy'</font>)</dt><dd><tt>Calculate&nbsp;rmse&nbsp;error&nbsp;over&nbsp;test&nbsp;data.&nbsp;The&nbsp;test&nbsp;data&nbsp;and&nbsp;training&nbsp;data&nbsp;are<br>
+disjoint&nbsp;so&nbsp;as&nbsp;to&nbsp;better&nbsp;evaluate&nbsp;the&nbsp;recommender&nbsp;system.&nbsp;Rmse&nbsp;error&nbsp;is<br>
+calculated&nbsp;by&nbsp;the&nbsp;formula,&nbsp;<a href="#-sqrt">sqrt</a>(summation(&nbsp;(predicted&nbsp;-&nbsp;actual)&nbsp;^&nbsp;2)/n<br>
+:param&nbsp;data:&nbsp;(String)&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;numpy&nbsp;array&nbsp;that&nbsp;contains&nbsp;our<br>
+predictions.<br>
+:return:&nbsp;(double)&nbsp;rmse&nbsp;error</tt></dd></dl>
+ <dl><dt><a name="-get_data"><strong>get_data</strong></a>()</dt><dd><tt>&nbsp;A&nbsp;function&nbsp;to&nbsp;read&nbsp;data&nbsp;from&nbsp;test&nbsp;file,&nbsp;and&nbsp;return&nbsp;a&nbsp;sparse&nbsp;matrix.<br>
+:return:&nbsp;A&nbsp;sparse&nbsp;user&nbsp;-&nbsp;movie&nbsp;rating&nbsp;matrix</tt></dd></dl>
+ <dl><dt><a name="-get_energy"><strong>get_energy</strong></a>(matrix_sigma)</dt><dd><tt>A&nbsp;function&nbsp;to&nbsp;calculate&nbsp;energy&nbsp;of&nbsp;a&nbsp;SVD&nbsp;decomposition.<br>
+Energy&nbsp;of&nbsp;a&nbsp;SVD&nbsp;decomposition&nbsp;is&nbsp;sum&nbsp;of&nbsp;squares&nbsp;of&nbsp;diagonal&nbsp;values&nbsp;in<br>
+matrix&nbsp;sigma&nbsp;of&nbsp;the&nbsp;decomposition<br>
+:param&nbsp;matrix_sigma:&nbsp;(numpy.ndarray)&nbsp;The&nbsp;matrix&nbsp;sigma&nbsp;of&nbsp;svd&nbsp;decomposition<br>
+:return:&nbsp;(double)&nbsp;the&nbsp;energy&nbsp;of&nbsp;svd&nbsp;decomposition<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list)&nbsp;list&nbsp;of&nbsp;eigen&nbsp;values&nbsp;(diagonal&nbsp;elements)&nbsp;of&nbsp;matrix&nbsp;sigma</tt></dd></dl>
+ <dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><tt>The&nbsp;main&nbsp;function.<br>
+It&nbsp;does&nbsp;the&nbsp;following:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;reads&nbsp;data&nbsp;from&nbsp;training&nbsp;file&nbsp;and&nbsp;converts&nbsp;it&nbsp;to&nbsp;a&nbsp;user&nbsp;movie&nbsp;matrix<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;performs&nbsp;preprocessing<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;performs&nbsp;SVD&nbsp;decomposition,&nbsp;and&nbsp;calculates&nbsp;rmse,&nbsp;precision&nbsp;on&nbsp;top&nbsp;k<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;spearman&nbsp;correlation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Performs&nbsp;minimzation&nbsp;until&nbsp;90%&nbsp;of&nbsp;energy,&nbsp;and&nbsp;calculates&nbsp;them&nbsp;again.<br>
+:return:&nbsp;None</tt></dd></dl>
+ <dl><dt><a name="-minimize_sigma"><strong>minimize_sigma</strong></a>(matrix_u, matrix_sigma, matrix_v)</dt><dd><tt>To&nbsp;make&nbsp;our&nbsp;decomposition&nbsp;more&nbsp;efficent&nbsp;we&nbsp;can&nbsp;minimize&nbsp;our&nbsp;matrices&nbsp;until<br>
+the&nbsp;energy&nbsp;of&nbsp;our&nbsp;decomposition&nbsp;is&nbsp;90%&nbsp;of&nbsp;energy&nbsp;of&nbsp;original<br>
+decomposition.&nbsp;This&nbsp;function&nbsp;accompolishes&nbsp;that.<br>
+We&nbsp;minimize&nbsp;our&nbsp;matrices&nbsp;the&nbsp;following&nbsp;way:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;get&nbsp;energy&nbsp;of&nbsp;original&nbsp;matrix&nbsp;as&nbsp;energy<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;iteratively&nbsp;eliminate&nbsp;the&nbsp;least&nbsp;eigen&nbsp;value&nbsp;from&nbsp;eigen&nbsp;value&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;until&nbsp;the&nbsp;energy&nbsp;of&nbsp;new&nbsp;eigen&nbsp;value&nbsp;list&nbsp;is&nbsp;90%&nbsp;of&nbsp;original&nbsp;energy<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;eliminate&nbsp;correspnding&nbsp;columns&nbsp;from&nbsp;matrix_sigma,&nbsp;and&nbsp;corresponding<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columns&nbsp;from&nbsp;matrix_u,&nbsp;corresponding&nbsp;rows&nbsp;from&nbsp;matrix_v<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;return&nbsp;the&nbsp;three&nbsp;minimized&nbsp;matrices<br>
+:param&nbsp;matrix_u:&nbsp;(numpy.ndarray)&nbsp;U&nbsp;in&nbsp;SVD&nbsp;decomposition<br>
+:param&nbsp;matrix_sigma:&nbsp;(numpy.ndarray)&nbsp;sigma&nbsp;in&nbsp;SVD&nbsp;decomposition<br>
+:param&nbsp;matrix_v:&nbsp;(numpy.ndarray)&nbsp;V&nbsp;in&nbsp;SVD&nbsp;decomposition<br>
+:return:&nbsp;the&nbsp;three&nbsp;matrices&nbsp;minimized.</tt></dd></dl>
+ <dl><dt><a name="-precision_at_top_k"><strong>precision_at_top_k</strong></a>(db<font color="#909090">='predictions.npy'</font>, k<font color="#909090">=300</font>)</dt><dd><tt>A&nbsp;function&nbsp;to&nbsp;calculate&nbsp;precision&nbsp;for&nbsp;top_k&nbsp;ratings.&nbsp;we&nbsp;calculate&nbsp;the<br>
+precision&nbsp;the&nbsp;following&nbsp;way:<br>
+-&nbsp;Get&nbsp;top&nbsp;K&nbsp;entries&nbsp;from&nbsp;our&nbsp;predicted&nbsp;values<br>
+-&nbsp;Get&nbsp;threshold&nbsp;for&nbsp;these&nbsp;top&nbsp;K&nbsp;entries<br>
+-&nbsp;Get&nbsp;the&nbsp;number&nbsp;of&nbsp;entries&nbsp;amongst&nbsp;these&nbsp;K&nbsp;entries&nbsp;whose&nbsp;actual&nbsp;rating&nbsp;is<br>
+&nbsp;&nbsp;greater&nbsp;than&nbsp;threshold&nbsp;as&nbsp;c<br>
+-&nbsp;precision&nbsp;=&nbsp;c/k<br>
+:param&nbsp;db:&nbsp;(String)&nbsp;name&nbsp;of&nbsp;the&nbsp;numpy&nbsp;array&nbsp;where&nbsp;our&nbsp;predictions&nbsp;are&nbsp;stored.<br>
+:param&nbsp;k:&nbsp;(int)&nbsp;k&nbsp;in&nbsp;top&nbsp;K&nbsp;entries<br>
+:return:&nbsp;(double)&nbsp;precision</tt></dd></dl>
+ <dl><dt><a name="-predict_singular"><strong>predict_singular</strong></a>(row, matrix_u, matrix_sigma, matrix_v, averages, column)</dt><dd><tt>This&nbsp;function&nbsp;predicts&nbsp;the&nbsp;rating&nbsp;a&nbsp;user&nbsp;gives&nbsp;to&nbsp;a&nbsp;movie,&nbsp;based&nbsp;on&nbsp;the<br>
+matrices&nbsp;obtained&nbsp;from&nbsp;SVD&nbsp;decomposition.<br>
+:param&nbsp;row:&nbsp;(int)&nbsp;Id&nbsp;of&nbsp;user<br>
+:param&nbsp;column:(int)&nbsp;Id&nbsp;of&nbsp;movie,&nbsp;whose&nbsp;rating&nbsp;from&nbsp;user&nbsp;we&nbsp;have&nbsp;to&nbsp;determine<br>
+:param&nbsp;matrix_u:(scipy.sparse.csr_matrix)&nbsp;U&nbsp;in&nbsp;SVD&nbsp;decopmosition<br>
+:param&nbsp;matrix_sigma:&nbsp;(np.ndarray)&nbsp;sigma&nbsp;in&nbsp;SVD&nbsp;decomposition<br>
+:param&nbsp;matrix_v:(scipy.sparse.csr_matrix)&nbsp;v&nbsp;in&nbsp;svd&nbsp;decomposition<br>
+:param&nbsp;averages:&nbsp;(numpy.ndarray)&nbsp;array&nbsp;which&nbsp;contains&nbsp;average&nbsp;rating&nbsp;of&nbsp;each<br>
+user.<br>
+:return:&nbsp;(int)&nbsp;predicted&nbsp;rating</tt></dd></dl>
+ <dl><dt><a name="-preprocess"><strong>preprocess</strong></a>(matrix, store<font color="#909090">=True</font>)</dt><dd><tt>A&nbsp;function&nbsp;to&nbsp;preprocess&nbsp;the&nbsp;matrix.&nbsp;In&nbsp;this&nbsp;step,&nbsp;from&nbsp;every&nbsp;user's<br>
+rating,&nbsp;we&nbsp;subtract&nbsp;that&nbsp;user's&nbsp;average&nbsp;rating.<br>
+:param&nbsp;matrix:&nbsp;(scipy.sparse.csr_matrix)&nbsp;the&nbsp;matrix&nbsp;to&nbsp;be&nbsp;processed<br>
+:param&nbsp;store:&nbsp;(Boolean)&nbsp;if&nbsp;store&nbsp;==&nbsp;true,&nbsp;this&nbsp;function&nbsp;also&nbsp;stores<br>
+averages&nbsp;of&nbsp;each&nbsp;user&nbsp;rating&nbsp;in&nbsp;a&nbsp;numpy&nbsp;array.&nbsp;Otherwise,&nbsp;it&nbsp;just&nbsp;performs<br>
+pre-processing&nbsp;of&nbsp;matrix&nbsp;a<br>
+:return:&nbsp;(scipy.sparse.csr_matrix)&nbsp;preprocessed&nbsp;matrix</tt></dd></dl>
+ <dl><dt><a name="-rmse"><strong>rmse</strong></a>(matrix_a, matrix_u, matrix_sigma, matrix_v)</dt><dd><tt>A&nbsp;function&nbsp;to&nbsp;calculate&nbsp;rmse&nbsp;on&nbsp;original&nbsp;matrix.<br>
+:param&nbsp;matrix_a:&nbsp;(scipy.sparse.csr_matrix)&nbsp;the&nbsp;original&nbsp;matrix&nbsp;which&nbsp;we<br>
+have&nbsp;decomposed.<br>
+:param&nbsp;matrix_u:&nbsp;(numpy.ndarray)&nbsp;U&nbsp;in&nbsp;SVD&nbsp;decomposition&nbsp;of&nbsp;matrix_a<br>
+:param&nbsp;matrix_sigma:&nbsp;(numpy.ndarray)&nbsp;sigma&nbsp;in&nbsp;SVD&nbsp;decomposition&nbsp;of&nbsp;matrix_a<br>
+:param&nbsp;matrix_v:&nbsp;(numpy.ndarray)&nbsp;V&nbsp;in&nbsp;SVD&nbsp;decomposition&nbsp;of&nbsp;matrix_a<br>
+:return:&nbsp;(double)&nbsp;rmse&nbsp;error</tt></dd></dl>
+ <dl><dt><a name="-save_predictions"><strong>save_predictions</strong></a>(matrix_u, matrix_sigma, matrix_v, db<font color="#909090">='predictions.npy'</font>)</dt><dd><tt>To&nbsp;not&nbsp;run&nbsp;the&nbsp;entire&nbsp;algorithm&nbsp;every&nbsp;time,&nbsp;we&nbsp;can&nbsp;save&nbsp;our&nbsp;predictions<br>
+for&nbsp;a&nbsp;given&nbsp;test&nbsp;data.&nbsp;This&nbsp;function&nbsp;does&nbsp;that.<br>
+:param&nbsp;matrix_u:(numpy.ndarray)&nbsp;U&nbsp;in&nbsp;SVD&nbsp;decompoistion&nbsp;of&nbsp;given&nbsp;matrix<br>
+:param&nbsp;matrix_sigma:&nbsp;(numpy.ndarray)&nbsp;Sigma&nbsp;in&nbsp;SVD&nbsp;decomposition&nbsp;of&nbsp;given<br>
+matrix<br>
+:param&nbsp;matrix_v:&nbsp;(numpy.ndarray)&nbsp;V&nbsp;in&nbsp;SVD&nbsp;decomposition&nbsp;of&nbsp;given&nbsp;matrix<br>
+:param&nbsp;db:&nbsp;(String)&nbsp;name&nbsp;of&nbsp;numpy&nbsp;array&nbsp;containing&nbsp;actual&nbsp;predictions.<br>
+:return:</tt></dd></dl>
+ <dl><dt><a name="-save_test_data"><strong>save_test_data</strong></a>(testfile)</dt><dd><tt>A&nbsp;function&nbsp;to&nbsp;read&nbsp;the&nbsp;testfile&nbsp;and&nbsp;store&nbsp;users&nbsp;and&nbsp;movies,&nbsp;and&nbsp;their<br>
+corresponding&nbsp;ratings&nbsp;into&nbsp;numpy&nbsp;arrays.<br>
+:param&nbsp;testfile:&nbsp;(String)&nbsp;the&nbsp;name&nbsp;of&nbsp;test&nbsp;file.<br>
+:return:&nbsp;None</tt></dd></dl>
+ <dl><dt><a name="-spearman_correlation"><strong>spearman_correlation</strong></a>(db<font color="#909090">='predictions.npy'</font>)</dt><dd><tt>Function&nbsp;to&nbsp;calculate&nbsp;spearman&nbsp;correlation.<br>
+It&nbsp;is&nbsp;calculated&nbsp;by&nbsp;the&nbsp;following&nbsp;formula:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;-&nbsp;((6&nbsp;*&nbsp;sum((predicted&nbsp;-&nbsp;actual)&nbsp;^&nbsp;2)/(&nbsp;n&nbsp;(&nbsp;n^2&nbsp;-&nbsp;1)),&nbsp;where&nbsp;n&nbsp;is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;number&nbsp;of&nbsp;entries&nbsp;we&nbsp;are&nbsp;checking&nbsp;against.<br>
+Spearman&nbsp;correaltion&nbsp;gives&nbsp;how&nbsp;similar&nbsp;two&nbsp;vectors&nbsp;are.&nbsp;How&nbsp;strongly&nbsp;they<br>
+are&nbsp;correlated&nbsp;is&nbsp;determined&nbsp;by&nbsp;the&nbsp;magnitude&nbsp;of&nbsp;correlation.&nbsp;The&nbsp;closer<br>
+they&nbsp;are&nbsp;to&nbsp;1,&nbsp;the&nbsp;stronger&nbsp;they&nbsp;are&nbsp;related.<br>
+:param&nbsp;db:&nbsp;(String)&nbsp;name&nbsp;of&nbsp;the&nbsp;numpy&nbsp;array&nbsp;where&nbsp;our&nbsp;predictions&nbsp;are&nbsp;stored<br>
+:return:&nbsp;(double)&nbsp;spearman&nbsp;correaltion</tt></dd></dl>
+ <dl><dt><a name="-split_matrix"><strong>split_matrix</strong></a>(matrix_a)</dt><dd><tt>A&nbsp;function&nbsp;to&nbsp;perform&nbsp;svd&nbsp;decomposition&nbsp;on&nbsp;the&nbsp;matrix&nbsp;given&nbsp;to&nbsp;it.The<br>
+algorithm&nbsp;to&nbsp;peform&nbsp;the&nbsp;SVD&nbsp;decomposition&nbsp;for&nbsp;a&nbsp;matrix&nbsp;A&nbsp;is&nbsp;as&nbsp;follows:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Calculate&nbsp;x&nbsp;=&nbsp;A&nbsp;*&nbsp;A.transpose()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;find&nbsp;all&nbsp;eigen&nbsp;values&nbsp;of&nbsp;x,&nbsp;and&nbsp;find&nbsp;corresponding&nbsp;eigen&nbsp;vectors<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Construct&nbsp;matrix&nbsp;U&nbsp;by&nbsp;arragning&nbsp;eigen&nbsp;vectors,&nbsp;in&nbsp;decreasing&nbsp;order<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;their&nbsp;eigen&nbsp;value&nbsp;magnitude,&nbsp;as&nbsp;columns.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Similarly&nbsp;construct&nbsp;V&nbsp;from&nbsp;matrix&nbsp;y&nbsp;=&nbsp;A.transpose()&nbsp;*&nbsp;A<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Construct&nbsp;the&nbsp;matrix&nbsp;sigma&nbsp;by&nbsp;placing&nbsp;square&nbsp;roots&nbsp;of&nbsp;eigen&nbsp;values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;x&nbsp;in&nbsp;decreasing&nbsp;order&nbsp;of&nbsp;their&nbsp;magnitudes&nbsp;along&nbsp;principal&nbsp;diagonal<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;a&nbsp;zero&nbsp;square&nbsp;matrix&nbsp;of&nbsp;appropriate&nbsp;dimensions<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;return&nbsp;U,&nbsp;Sigma,&nbsp;V<br>
+:param&nbsp;matrix_a:&nbsp;(scipy.sparse.csr_matrix)&nbsp;A&nbsp;sparse&nbsp;matrix&nbsp;that&nbsp;is&nbsp;to&nbsp;be<br>
+decomposed&nbsp;via&nbsp;svd<br>
+:return:&nbsp;the&nbsp;three&nbsp;matrices,&nbsp;U,&nbsp;Sigma,&nbsp;and&nbsp;V&nbsp;that&nbsp;are&nbsp;the&nbsp;result&nbsp;of&nbsp;SVD<br>
+decomposition</tt></dd></dl>
+ <dl><dt><a name="-sqrt"><strong>sqrt</strong></a>(...)</dt><dd><tt><a href="#-sqrt">sqrt</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;square&nbsp;root&nbsp;of&nbsp;x.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>division</strong> = _Feature((2, 2, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 8192)<br>
+<strong>total_movies</strong> = 1682<br>
+<strong>total_users</strong> = 943</td></tr></table>
+</body></html>

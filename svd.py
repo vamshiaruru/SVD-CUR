@@ -8,6 +8,7 @@ import scipy.linalg as linalg
 import csv
 import os
 from math import sqrt
+import time
 
 total_users = 943
 total_movies = 1682
@@ -238,6 +239,7 @@ def predict_singular(row, matrix_u, matrix_sigma, matrix_v, averages, column):
     user.
     :return: (int) predicted rating
     """
+    now = time.clock()
     row = int(row)
     column = int(column)
     # for a user 'row' all his predictions can be calculated by taking the row
@@ -248,6 +250,7 @@ def predict_singular(row, matrix_u, matrix_sigma, matrix_v, averages, column):
     temp_s = temp_u * matrix_sigma
     temp_v = csr_matrix(temp_s) * matrix_v
     prediction = temp_v[0, int(column)] + averages[row]
+    print time.clock() - now
     return prediction
 
 
@@ -378,9 +381,8 @@ def main():
     matrix_a, averages = preprocess(matrix_a)
     print "starting to split"
     matrix_u, matrix_sigma, matrix_v = split_matrix(matrix_a)
-    save_test_data("u1.test")
     if "predictions.npy" not in os.listdir("."):
-        print "here"
+        print "saving predictions"
         save_predictions(matrix_u, matrix_sigma, matrix_v)
     print "rmse before minimimization", brute_rmse()
     print "precision at top k before minimization", precision_at_top_k(
